@@ -59,12 +59,17 @@ func (cf ConfigFile) BackupConfig() error {
 			t := time.Now()
 
 			backupFilename := fmt.Sprintf("%s.%d", cf.ConfigPath, t.Unix())
+			log.Printf("writing backup file %s", backupFilename)
+
+			bytes, err := ioutil.ReadFile(cf.ConfigPath)
 			if err != nil {
 				return err
 			}
 
-			log.Printf("writing backup file %s", backupFilename)
-			// TODO actually write the backup - bisically an os rename
+			err = ioutil.WriteFile(backupFilename, bytes, 0644)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
