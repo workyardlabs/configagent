@@ -1,0 +1,35 @@
+{
+  "jobs": [
+    {
+      "name": "example rails configuration",
+      "parameterKeys": [
+        {
+          "key":  "Database",
+          "path": "my/environment/dev/Database"
+        },
+        {
+          "key":  "DatabasePassword",
+          "path": "my/environment/dev/DatabasePassword"
+        },
+        {
+          "key":  "DatabaseUsername",
+          "path": "my/environment/dev/DatabaseUsername"
+        },
+        {
+          "key":  "DatabaseHost",
+          "path": "my/environment/dev/DatabaseHost"
+        }
+      ],
+      "configFiles": [
+        {
+          "backupConfig": true,
+          "templatePath": "example/dbcredentials.tpl",
+          "configPath": "dbconfig"
+        }
+      ],
+      "restartOnChange": true,
+      "service": "web-application"
+    }
+  ]
+}
+
