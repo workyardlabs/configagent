@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"os"
+
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/workyard/configagent/job"
@@ -27,7 +29,12 @@ var validateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		initLogging()
 
-		jobs, err := job.LoadJobs(jobsFile)
+		file, err := os.Open(jobsFile)
+		if err != nil {
+			log.Fatal().Err(err)
+		}
+
+		jobs, err := job.ImportJobFile(file)
 		if err != nil {
 			log.Fatal().Err(err)
 		}

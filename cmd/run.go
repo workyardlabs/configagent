@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"os"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -34,7 +35,12 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		initLogging()
 
-		jobs, err := job.LoadJobs(jobsFile)
+		file, err := os.Open(jobsFile)
+		if err != nil {
+			log.Fatal().Err(err)
+		}
+
+		jobs, err := job.ImportJobFile(file)
 		if err != nil {
 			log.Fatal().Err(err)
 		}

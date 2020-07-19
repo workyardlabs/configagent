@@ -3,6 +3,7 @@ package job
 import (
 	"encoding/json"
 	"github.com/rs/zerolog/log"
+	"io"
 	"io/ioutil"
 )
 
@@ -10,15 +11,13 @@ type Jobs struct {
 	Jobs []Job `json:"jobs"`
 }
 
-func LoadJobs(filename string) (Jobs, error) {
+func ImportJobFile(rdr io.Reader) (Jobs, error) {
 	jobs := Jobs{}
 
-	jsonStr, err := ioutil.ReadFile(filename)
+	jsonStr, err := ioutil.ReadAll(rdr)
 	if err == nil {
 		err = json.Unmarshal(jsonStr, &jobs)
 	}
-
-	log.Printf("jobs loaded from file: %s", filename)
 
 	return jobs, err
 }
