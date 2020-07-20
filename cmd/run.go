@@ -51,13 +51,18 @@ var runCmd = &cobra.Command{
 			ticker := time.NewTicker(time.Duration(tickSeconds) * time.Second)
 
 			for _ = range ticker.C {
-				log.
-					Debug().
-					Msg("executing jobs")
-				jobs.Execute()
+				log.Debug().Msg("executing all jobs")
+
+				execErr := jobs.Execute()
+				if execErr != nil {
+					log.Fatal().Msg(execErr.Error())
+				}
 			}
 		} else {
-			jobs.Execute()
+			execErr := jobs.Execute()
+			if execErr != nil {
+				log.Fatal().Msg(execErr.Error())
+			}
 		}
 	},
 }
